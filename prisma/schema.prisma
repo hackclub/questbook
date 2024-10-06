@@ -24,4 +24,9 @@ model Quest {
 
   user     User     @relation(fields: [slackId], references: [slackId])
   slackId  String
+
+  progress Int @default(0)
+  completion Int 
+
+  createdAt DateTime @default(now())
 }
