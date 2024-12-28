@@ -1,0 +1,20 @@
+{
+  "name": "questbook",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@prisma/client": "6.1.0",
+    "@slack/bolt": "^4.2.0",
+    "dotenv": "^16.4.7",
+    "prisma": "^6.1.0"
+  },
+  "scripts": {
+    "run": "bun run ./src/entry.ts"
+  }
+}
