@@ -9,6 +9,8 @@ const QUEST_META = {
 }
 
 app.message(async ({ message }) => {
+    app.logger.info('Message received', message);
+
     const slackId = (message as any).user;
 
     const quest = await prisma.quests.findFirst({
@@ -21,6 +23,20 @@ app.message(async ({ message }) => {
     });
 
     if (quest) {
-        
+        await prisma.quests.update({
+            where: {
+                uid: quest.uid,
+            },
+            data: {
+                step: QUEST_META.completeStep,
+            }
+        });
+
+        await app.client.chat.postMessage({
+            token: process.env.SLACK_BOT_TOKEN,
+            channel: slackId,
+            text: `Congratulations! You have completed the quest: ${QUEST_META.name}`,
+            username: 'questbook'
+        });
     }
 });

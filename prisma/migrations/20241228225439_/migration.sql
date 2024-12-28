@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Quests" ALTER COLUMN "step" SET DEFAULT 0,
+ALTER COLUMN "metadata" DROP NOT NULL;

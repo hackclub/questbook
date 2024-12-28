@@ -19,13 +19,14 @@ model User {
 }
 
 model Quests {
-  uid        String   @id
+  uid        String   @id @default(uuid())
   questId    String
 
-  step       Int
+  step       Int      @default(0)
+  completed  Boolean  @default(false)
   
   slackId    String
   user       User     @relation(fields: [slackId], references: [slackId])
 
-  metadata   Json
+  metadata   Json?
 }
