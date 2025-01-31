@@ -11,8 +11,11 @@
   "dependencies": {
     "@prisma/client": "6.1.0",
     "@slack/bolt": "^4.2.0",
+    "@slack/types": "^2.14.0",
+    "@types/js-yaml": "^4.0.9",
     "dotenv": "^16.4.7",
-    "prisma": "^6.1.0"
+    "prisma": "^6.1.0",
+    "yaml": "^2.7.0"
   },
   "scripts": {
     "run": "bun run ./src/entry.ts"

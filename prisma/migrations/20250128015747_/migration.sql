@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "Stage" ADD VALUE 'OPENED_COC';

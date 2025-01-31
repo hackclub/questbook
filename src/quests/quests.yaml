@@ -1,0 +1,29 @@
+# questID:
+#    title: "[a title]"
+#    description: "[description]"
+#    image: [image]
+#    imageAlt: "[add image alt text (required or image won't show)]"
+#    tutorial: "[tutorial action id (reference your code to this)]"
+#    url: [url, i.e. to a slack channel]
+
+quests:
+  firstMessage:
+    title: "Say Hii in #welcome"
+    description: "The community is very welcoming, send a message to introduce yourself and receive a warm welcome!"
+    url: https://hackclub.slack.com/archives/C75M7C0SY
+    
+  joinChannel:
+    title: ":hash_1: Join A Channel"
+    description: "Join a Channel! Channels are where people send messages and stuff."
+
+  setProfilePicture:
+    title: "Set a profile picture"
+    description: "Profile pictures are great! It doesn't have to be your face, it could be a show you like, maybe some flowers :D."
+    tutorial: "tutorial-set-profile-picture"
+  
+  firstShip:
+    title: ":shipitparrot: Ship Something"
+    description: "Hack Club is a place to make cool stuff! Create a cool project (think websites, games, tools, anything code!) and share it with the world!"
+    tutorial: "tutorial-ship-something"
+    url: https://hackclub.slack.com/archives/C0M8PUPU6
+  

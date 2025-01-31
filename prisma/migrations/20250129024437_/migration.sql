@@ -1,0 +1,2 @@
+-- AlterEnum
+ALTER TYPE "Stage" ADD VALUE 'SLACK_TUTORIAL';

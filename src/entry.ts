@@ -1,32 +1,30 @@
 import 'dotenv/config';
 import { app } from './bolt';
-import { prisma } from './prisma';
 
-app.command('/quest-test', async ({ ack, body, client }) => {
-    await ack();
+import { parse } from 'yaml';
+import fs from 'fs';
 
-    await prisma.user.create({
-        data: {
-            slackId: body.user_id,
-        }
-    });
+const configFile = fs.readFileSync('./src/config.yaml', 'utf8');
+const CONFIG = parse(configFile);
 
-    await prisma.quests.create({
-        data: {
-            questId: 'first_message',
-            user: {
-                connect: {
-                    slackId: body.user_id,
-                }
-            }
-        }
-    });
+await Promise.all(CONFIG['defaultChannels'].map(async (channel_id: string) => {
+    try {
+        await app.client.conversations.join({
+            channel: channel_id,
+        });
+    } catch (e) {
+        console.error(e);
+    }
+}));
 
-    app.logger.info('created quest');
-});
+import './flow';
 
-import './welcome';
+import './quests/questHandlers/firstMessage';
+import './quests/questHandlers/setProfilePicture';
+import './quests/questHandlers/joinChannel';
 
 await app.start(process.env.PORT || 3000);
 
-app.logger.info('⚡️ Bolt app is running!');
+app.logger.info('⚡️ Bolt app is running!'); 
+
+export { CONFIG };
