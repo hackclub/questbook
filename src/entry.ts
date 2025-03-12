@@ -22,6 +22,7 @@ import './flow';
 import './quests/questHandlers/firstMessage';
 import './quests/questHandlers/setProfilePicture';
 import './quests/questHandlers/joinChannel';
+import './quests/questHandlers/firstShip';
 
 await app.start(process.env.PORT || 3000);
 

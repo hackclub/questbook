@@ -18,6 +18,7 @@ model User {
   quests     Quests[]
 
   tutorial_stage Stage @default(INITIALIZED)
+  mpimId     String
 }
 
 enum Stage {

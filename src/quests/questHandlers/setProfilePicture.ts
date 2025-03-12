@@ -1,12 +1,15 @@
+import type { SectionBlock, View } from "@slack/types";
 import { app } from "../../bolt";
 import { prisma } from "../../prisma";
 import { getTemplate } from "../../util/transcript";
 import { complete } from "../quests";
 
+import { questsMetadata } from "../quests";
+
 const QUEST_ID = 'setProfilePicture';
 
 app.event('user_profile_changed', async ({ payload }) => {
-    app.logger.info('Message received', payload);
+    //app.logger.info('Message received', payload);
 
     const slackId = payload.user.id;
 
@@ -32,3 +35,4 @@ app.event('user_profile_changed', async ({ payload }) => {
         });
     }
 });
+

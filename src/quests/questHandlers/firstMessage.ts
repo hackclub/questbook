@@ -19,7 +19,7 @@ if quest is completed --> calls complete(quest.uid)
 app.message(async ({ message }) => {
     const slackId = (message as any).user;
 
-    if (message.subtype && message.channel != CONFIG.welcomeChannel) { // Make sure you're not registering a channel join
+    if (message.subtype && message.channel != CONFIG.botNotSpam) { // Make sure you're not registering a channel join
         return;
     }
 
