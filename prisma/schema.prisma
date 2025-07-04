@@ -15,14 +15,33 @@ datasource db {
 
 model User {
   slackId    String   @id
+  quests     Quests[]
 
-  blue   Int @default(0)
-  red    Int @default(0)
-  yellow  Int @default(0)
-
-  flowStep  Int @default(0)
-
-  feedback String @default("")
-  projects String @default("")
+  tutorial_stage Stage @default(INITIALIZED)
+  mpimId     String
 }
 
+enum Stage {
+  INITIALIZED
+  OPEN_LID
+  SHOW_COC
+  ACCEPTED_COC
+  SLACK_TUTORIAL
+  FINISHED
+}
+
+model Quests {
+  uid        String   @id @default(uuid())
+  questId    String   
+
+  progress   Float      @default(0) 
+  completed  Boolean    @default(false)
+
+  slackId    String
+  user       User     @relation(fields: [slackId], references: [slackId])
+
+  lastUpdated DateTime? @updatedAt
+  dateCompleted DateTime?
+
+  metadata   Json?
+}
