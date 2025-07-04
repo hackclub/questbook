@@ -19,5 +19,6 @@
   },
   "scripts": {
     "run": "bun run ./src/entry.ts"
-  }
+  },
+  "private": true
 }

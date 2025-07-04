@@ -1,5 +1,0 @@
--- CreateEnum
-CREATE TYPE "Stage" AS ENUM ('INITIALIZED', 'STARTED_FLOW', 'ACCEPTED_COC', 'FINISHED');
-
--- AlterTable
-ALTER TABLE "User" ADD COLUMN     "tutorial_stage" "Stage" NOT NULL DEFAULT 'INITIALIZED';
