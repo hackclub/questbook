@@ -21,8 +21,5 @@ model User {
   yellow  Int @default(0)
 
   flowStep  Int @default(0)
-
-  feedback String @default("")
-  projects String @default("")
 }
 

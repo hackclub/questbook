@@ -1,48 +1,27 @@
-/* 
-[image 4: split 3 where diff head addresses you depending on your guild]
-
-:cerb-blue:: Hey! You! Yeah, you! [Y/N]! Congrats on joining us~ you'll be hanging out here with us in Club Cobalt! ٩(^ᗜ^ )و ´ We're the Blue Guild - It’s sosososo cool that you’re here, we can’t wait to see what stuff you make!!! I’m sure it’ll be awesome ദ്ദി(˵ •̀ ᴗ - ˵ ) ✧
-
-:cerb-blue:: Oh! You wanna chill? Nahhh, rest later - let’s go celebrate instead!! I got cake for ya, hurry before I eat it all 🤩🤩
-
-Welcome to the Blue Guild! You’re fun, you’re creative, you’re sparkly. Sometimes, you move a little too quick, but you’re never stuck doing the same thing twice. Fast iteration is the name of the game, and as far as anyone’s concerned, you’re winning.
-
-:cerb-red:: Hello? [Y/N]? I’m here to give you a warm welcome to us and the Agate Allies here, I hope you have a good time with you and your new friends. Your projects are simply magnificent and we cannot wait to see what you do next.
-
-:cerb-red:: Oh dear, you look exhausted. Come with me and I’ll get you all the stuff you need, Agate is here for you always!
-
-Welcome to the Red Guild! You’re cool, you’re creative, you get things done. Sometimes, your creations are messy, but if they work, they work. It’s imperfect, but that’s what makes us human. You put your soul into your creations, and in turn, they appear alive. 
-
-:cerb-yellow:: [Y/N]. Hi there. Welcome to the Sulfur Society. Feel free to take a look around here; you're stuck with me for the meantime. Though I gotta say, those projects of yours? I like em. Plenty practical. 
-
-:cerb-yellow:: Hm? You’re tired? Ohhh yeah, you’re definitely plenty roughed up. Let’s go in and get you some rest. Welcome again.
-
-Welcome to the Yellow Guild! You’re practical, you’re useful, [word]. Sometimes, you’re too focused on the details and mechanisms of a project, but they always turn out intricate. You make for a better world, both for yourself and others. (not final)
-*/
-
 import type { AnyBlock, Block } from "@slack/types";
 import { app } from "./bolt";
 import { prisma } from "./prisma";
+import { addFeedback, addGuild } from "./airtable";
 
-// app.client.chat.postMessage({
-//     channel: "C08AQ19QA3A",
-// 	"blocks": [
-// 		{
-// 			"type": "actions",
-// 			"elements": [
-// 				{
-// 					"type": "button",
-// 					"text": {
-// 						"type": "plain_text",
-// 						"text": "??",
-// 						"emoji": true
-// 					},
-// 					"action_id": "start"
-// 				}
-// 			]
-// 		}
-// 	]
-// })
+app.client.chat.postMessage({
+    channel: `U04QD71QWS0`, //set to your slack id
+	"blocks": [
+		{
+			"type": "actions",
+			"elements": [
+				{
+					"type": "button",
+					"text": {
+						"type": "plain_text",
+						"text": "??",
+						"emoji": true
+					},
+					"action_id": "start"
+				}
+			]
+		}
+	]
+})
 
 app.action("start", async ({ body, ack }) => {
     /*
@@ -276,17 +255,20 @@ app.action("1", async ({ body, ack }) => {
         ]
     });
 
-
     await prisma.user.update({
         where: {
             slackId: body.user.id
         },
         data: {
-            feedback: values.feedback.feedback.value || "",
-            projects: values.projects.projects.value || "",
             flowStep: 2
         }
     });
+
+    await addFeedback(
+        body.user.id,
+        values.feedback.feedback.value || "",
+        values.projects.projects.value || ""
+    )
 });
 
 // to make sure i DRY, let's create a helper function
@@ -1046,6 +1028,8 @@ app.action("10", async ({ body, ack }) => {
                 emoji: true
             }
         });
+
+        await addGuild(body.user.id, "blue");
     } else if (user.red >= user.blue && user.red >= user.yellow) {
         /*
         :cerb-red:: Hello? [Y/N]? I’m here to give you a warm welcome to us and the Agate Allies here, I hope you have a good time with you and your new friends. Your projects are simply magnificent and we cannot wait to see what you do next.
@@ -1077,6 +1061,8 @@ get things done. Sometimes, your creations are messy, but if they work, they wor
                 emoji: true
             }
         });
+
+        await addGuild(body.user.id, "red");
     } else {
         /*
         :cerb-yellow:: [Y/N]. Hi there. Welcome to the Sulfur Society. Feel free to take a look around here; you're stuck with me for the meantime. Though I gotta say, those projects of yours? I like em. Plenty practical. 
@@ -1107,12 +1093,15 @@ get things done. Sometimes, your creations are messy, but if they work, they wor
                 emoji: true
             }
         });
+
+        await addGuild(body.user.id, "yellow");
     }
 
     await app.client.chat.postMessage({
         channel: body.user.id,
         blocks
     });
+
 
     //logic to add user to channel goes here
 });
